@@ -222,7 +222,7 @@ const projectStart = tasks[0].start;
 const wrapper = document.createElement("div");
 wrapper.style.position = "relative";
 wrapper.style.minHeight = "600px";
-wrapper.style.width = "3000px";
+wrapper.style.width = (tasks.length * 400_ + "px";
   wrapper.style.backgroundImage = "linear-gradient(to right, #eee 1px, transparent 1px)";
 wrapper.style.backgroundSize = `${zoomLevel}px 100%`;
 
