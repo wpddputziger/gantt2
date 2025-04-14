@@ -8,6 +8,7 @@ let editorTab = "project";
 document.addEventListener("DOMContentLoaded", () => {
   setupTabControls();
   renderTabs();
+  renderTasks();
 });
 
 // === TAB LOGIC ===
@@ -36,7 +37,6 @@ function renderTabs() {
     timeline: "panelTimeline"
   };
 
-  // Hide/show panels
   for (let key in tabMap) {
     const panel = document.getElementById(tabMap[key]);
     const btn = document.getElementById("tab" + capitalize(key));
@@ -51,7 +51,6 @@ function renderTabs() {
   if (editorTab === "subtask") renderSubtaskEditor();
 }
 
-// === TAB AVAILABILITY ===
 function canAccessTab(tab) {
   switch (tab) {
     case "project": return true;
@@ -90,51 +89,68 @@ function showToast(msg) {
   setTimeout(() => document.body.removeChild(toast), 2000);
 }
 
-// === DYNAMIC RENDERING FOR TASK/SUBTASK FIELDS ===
+// === RENDER TASKS
+function renderTasks() {
+  const timeline = document.getElementById("timeline");
+  timeline.innerHTML = "";
+
+  tasks.forEach(task => {
+    const div = document.createElement("div");
+    div.className = "task";
+    div.style.backgroundColor = task.color || "#F8961E";
+    div.style.color = "#000";
+    div.style.marginBottom = "1rem";
+    div.style.padding = "0.5rem";
+    div.innerHTML = `<strong>${task.name}</strong> <span style="float:right">🕓</span>`;
+    div.onclick = () => {
+      selectedTaskId = task.id;
+      selectedSubtask = null;
+      editorTab = "task";
+      renderTabs();
+    };
+    timeline.appendChild(div);
+  });
+}
+
+// === RENDER TASK EDITOR
 function renderTaskEditor() {
   const container = document.getElementById("taskFields");
   const task = findTaskById(selectedTaskId);
   if (!task) return container.innerHTML = "<p>No task selected.</p>";
 
   container.innerHTML = `
-    <label>Name: <input type="text" value="${task.name}" /></label>
-    <label>Start: <input type="date" value="${task.start}" /></label>
-    <label>End: <input type="date" value="${task.end}" /></label>
+    <label>Name: <input id="taskName" type="text" value="${task.name}" /></label>
+    <label>Start: <input id="taskStart" type="date" value="${task.start}" /></label>
+    <label>End: <input id="taskEnd" type="date" value="${task.end}" /></label>
     <label>Status:
-      <select>
-        <option ${task.status === "future" ? "selected" : ""}>future</option>
-        <option ${task.status === "active" ? "selected" : ""}>active</option>
-        <option ${task.status === "paused" ? "selected" : ""}>paused</option>
-        <option ${task.status === "complete" ? "selected" : ""}>complete</option>
+      <select id="taskStatus">
+        <option value="future">Future</option>
+        <option value="active">Active</option>
+        <option value="paused">Paused</option>
+        <option value="complete">Complete</option>
       </select>
     </label>
-    <label>Notes: <textarea>${task.notes}</textarea></label>
-    <label>Assigned To: <input type="text" value="${task.assigned}" /></label>
+    <label>Notes: <textarea id="taskNotes">${task.notes}</textarea></label>
+    <label>Assigned To: <input id="taskAssigned" type="text" value="${task.assigned}" /></label>
   `;
+
+  document.getElementById("taskName").oninput = e => task.name = e.target.value;
+  document.getElementById("taskStart").onchange = e => task.start = e.target.value;
+  document.getElementById("taskEnd").onchange = e => task.end = e.target.value;
+  document.getElementById("taskStatus").onchange = e => task.status = e.target.value;
+  document.getElementById("taskNotes").oninput = e => task.notes = e.target.value;
+  document.getElementById("taskAssigned").oninput = e => task.assigned = e.target.value;
+
+  renderTasks(); // re-render to show updated name/status
 }
 
+// === SUBTASK LOGIC PLACEHOLDER
 function renderSubtaskEditor() {
   const container = document.getElementById("subtaskFields");
-  const sub = selectedSubtask;
-  if (!sub) return container.innerHTML = "<p>No subtask selected.</p>";
-
-  container.innerHTML = `
-    <label>Name: <input type="text" value="${sub.name}" /></label>
-    <label>Start: <input type="date" value="${sub.start}" /></label>
-    <label>End: <input type="date" value="${sub.end}" /></label>
-    <label>Status:
-      <select>
-        <option ${sub.status === "future" ? "selected" : ""}>future</option>
-        <option ${sub.status === "active" ? "selected" : ""}>active</option>
-        <option ${sub.status === "paused" ? "selected" : ""}>paused</option>
-        <option ${sub.status === "complete" ? "selected" : ""}>complete</option>
-      </select>
-    </label>
-    <label>Assigned To: <input type="text" value="${sub.assigned || ""}" /></label>
-  `;
+  container.innerHTML = `<p>Subtask editor coming soon...</p>`;
 }
 
-// === DUMMY HELPERS FOR NEXT PHASE ===
+// === HELPERS
 function findTaskById(id) {
   return tasks.find(t => t.id === id);
 }
