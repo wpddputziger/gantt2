@@ -4,11 +4,14 @@ let selectedSubtask = null;
 let projectName = "Untitled Project";
 let editorTab = "project";
 let defaultDuration = 3;
+let autoColorEnabled = true;
+let colorIndex = 0;
+const taskColors = ["#F8961E", "#577590", "#43AA8B", "#9A5AFF", "#F94144", "#F3722C"];
 
-// INIT
 document.addEventListener("DOMContentLoaded", () => {
   setupTabControls();
   setupButtons();
+  setupSettings();
   renderTabs();
   renderTasks();
 });
@@ -16,10 +19,12 @@ document.addEventListener("DOMContentLoaded", () => {
 // === BUTTON SETUP ===
 function setupButtons() {
   document.getElementById("newProject").onclick = () => {
+    if (!confirm("Start a new project? Unsaved data will be lost.")) return;
     projectName = "Untitled Project";
     tasks = [];
     selectedTaskId = null;
     selectedSubtask = null;
+    colorIndex = 0;
     renderTabs();
     renderTasks();
   };
@@ -71,14 +76,33 @@ function setupButtons() {
     }
   };
 
-  // Timeline controls (placeholder logic)
-  document.getElementById("zoomIn")?.addEventListener("click", () => alert("Zoom + clicked"));
-  document.getElementById("fitWidth")?.addEventListener("click", () => alert("Fit Width clicked"));
-  document.getElementById("collapseAll")?.addEventListener("click", () => alert("Collapse clicked"));
-  document.getElementById("expandAll")?.addEventListener("click", () => alert("Expand clicked"));
+  document.getElementById("deleteTaskFromEditor").onclick = () => {
+    if (selectedTaskId && confirm("Delete this task from editor?")) {
+      tasks = tasks.filter(t => t.id !== selectedTaskId);
+      selectedTaskId = null;
+      selectedSubtask = null;
+      editorTab = "project";
+      renderTabs();
+      renderTasks();
+    }
+  };
+
+  // Footer timeline buttons (placeholders)
+  document.getElementById("zoomIn").onclick = () => alert("Zoom feature coming soon");
+  document.getElementById("fitWidth").onclick = () => alert("Fit Width feature coming soon");
+  document.getElementById("collapseAll").onclick = () => alert("Collapse feature coming soon");
+  document.getElementById("expandAll").onclick = () => alert("Expand feature coming soon");
 }
 
-// === TAB LOGIC ===
+function setupSettings() {
+  const toggle = document.getElementById("autoColorToggle");
+  if (toggle) {
+    toggle.checked = true;
+    toggle.onchange = e => autoColorEnabled = e.target.checked;
+  }
+}
+
+// === TABS
 function setupTabControls() {
   const tabs = ["project", "task", "subtask", "timeline"];
   tabs.forEach(tab => {
@@ -132,7 +156,7 @@ function capitalize(str) {
   return str[0].toUpperCase() + str.slice(1);
 }
 
-// === PROJECT NAME ===
+// === PROJECT NAME
 document.getElementById("applyProjectName").onclick = () => {
   const name = document.getElementById("projectNameField").value.trim();
   if (!name) return alert("Name can't be empty.");
@@ -156,7 +180,7 @@ function showToast(msg) {
   setTimeout(() => document.body.removeChild(toast), 2000);
 }
 
-// === TASK RENDERING ===
+// === TASKS
 function renderTasks() {
   const timeline = document.getElementById("timeline");
   timeline.innerHTML = "";
@@ -169,11 +193,16 @@ function renderTasks() {
     div.style.padding = "0.5rem";
     div.style.marginBottom = "1rem";
     div.style.cursor = "pointer";
-
-    if (task.id === selectedTaskId) div.classList.add("selected");
+    div.style.borderRadius = "6px";
+    div.style.boxShadow = task.id === selectedTaskId
+      ? "0 0 0 3px rgba(0,0,0,0.3)"
+      : "none";
 
     div.innerHTML = `
-      <strong>${task.name}</strong>
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <strong>${task.name}</strong>
+        ${task.subtasks?.length ? `<span style="font-size: 1.2em;">▾</span>` : ""}
+      </div>
       <div style="font-size:0.9em;margin-top:0.2rem;">🕓 ${task.start} → ${task.end}</div>
       ${task.subtasks?.length ? `<div style="font-size:0.85em;margin-top:0.5rem;">${task.subtasks.length} subtask(s)</div>` : ""}
     `;
@@ -189,7 +218,6 @@ function renderTasks() {
   });
 }
 
-// === TASK EDITOR ===
 function renderTaskEditor() {
   const container = document.getElementById("taskFields");
   const task = findTaskById(selectedTaskId);
@@ -221,15 +249,14 @@ function renderTaskEditor() {
   renderTasks();
 }
 
-// === SUBTASK EDITOR ===
 function renderSubtaskEditor() {
   const container = document.getElementById("subtaskFields");
   container.innerHTML = `<p>Subtask editor coming soon...</p>`;
 }
 
-// === HELPERS ===
 function createTask() {
   const today = new Date().toISOString().split("T")[0];
+  const color = autoColorEnabled ? getNextColor() : "#F8961E";
   return {
     id: Date.now(),
     name: "New Task",
@@ -238,8 +265,15 @@ function createTask() {
     status: "future",
     notes: "",
     assigned: "",
+    color,
     subtasks: []
   };
+}
+
+function getNextColor() {
+  const color = taskColors[colorIndex % taskColors.length];
+  colorIndex++;
+  return color;
 }
 
 function findTaskById(id) {
