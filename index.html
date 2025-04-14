@@ -8,30 +8,35 @@
 </head>
 <body>
   <header>
-    <div class="project-header">
-      <h1>GANTT2</h1>
-      <input type="text" id="projectName" placeholder="Untitled Project" />
+    <div class="header-top">
+      <h1>GANTT2 <span class="version-tag">v0.2.1</span></h1>
+      <input type="text" id="projectName" placeholder="Untitled Project" disabled />
     </div>
 
-    <div class="button-groups">
-      <div class="group project-group">
+    <div class="button-bar">
+      <div class="group project-controls">
         <button id="newProject">🧹 New Project</button>
         <button id="importBtn">📥 Import</button>
         <button id="exportBtn">📤 Export</button>
       </div>
-      <div class="group task-group">
+
+      <div class="group task-controls">
         <button id="addPrimaryStart">➕ Task (Start Aligned)</button>
         <button id="addPrimaryEnd">➕ Task (End Aligned)</button>
         <button id="addSub">➕ Sub Task</button>
         <button id="deleteTask">🗑️ Delete Task</button>
       </div>
-      <button id="toggleEditor">🪟 Toggle Editor</button>
+
+      <div class="group settings-controls">
+        <button id="toggleEditor">🪟 Toggle Editor</button>
+        <button id="openTimelineSettings">⚙️ Timeline Settings</button>
+      </div>
     </div>
   </header>
 
   <main>
     <section id="timeline">
-      <!-- Dynamic task rendering -->
+      <!-- Tasks will appear here -->
     </section>
 
     <aside id="editor">
@@ -50,7 +55,7 @@
         </label>
         <label>Notes: <textarea id="taskNotes"></textarea></label>
         <label>Assigned To: <input id="taskAssigned" type="text"/></label>
-        <label>Color:
+        <label>Background Color:
           <select id="taskColor">
             <option value="#F94144">Red</option>
             <option value="#F3722C">Orange</option>
@@ -65,13 +70,31 @@
           <input type="color" id="customColor" style="display:none;"/>
         </label>
         <label>Font Color: <input id="taskFontColor" type="color" /></label>
-        <button id="saveTask">💾 Save Task</button>
+        <button id="saveTask">✅ Apply Changes</button>
       </div>
     </aside>
+
+    <!-- Timeline Settings Panel -->
+    <div id="timelineSettingsPanel" class="hidden">
+      <h3>Timeline Settings</h3>
+      <label>Default Task Duration (days):
+        <input type="number" id="defaultDuration" value="3" min="1" />
+      </label>
+      <label>Timeline Background Color:
+        <input type="color" id="timelineBgColor" />
+      </label>
+      <label>Snap To:
+        <select id="snapTo">
+          <option value="none">None</option>
+          <option value="day">Day</option>
+          <option value="week">Week</option>
+        </select>
+      </label>
+      <button id="closeSettings">Close</button>
+    </div>
   </main>
 
   <footer>
-    <span id="version">GANTT2 v0.2.0</span>
     <button id="zoomIn">🔍 ZOOM +</button>
     <button id="fitWidth">🧩 Fit Width</button>
     <button id="collapseAll">📉 Collapse</button>
