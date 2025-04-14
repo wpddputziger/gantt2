@@ -3,37 +3,49 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>GANTT2 - Task Timeline Utility</title>
+  <title>GANTT2</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
-    <h1>GANTT2</h1>
-    <div class="controls">
-      <button id="newProject">New Project</button>
-      <button id="importBtn">Import</button>
-      <button id="exportBtn">Export</button>
-      <button id="addPrimary">New Primary Task</button>
-      <button id="addSub">New Sub Task</button>
+    <div class="project-header">
+      <h1>GANTT2</h1>
+      <input type="text" id="projectName" placeholder="Untitled Project" />
+    </div>
+
+    <div class="button-groups">
+      <div class="group project-group">
+        <button id="newProject">🧹 New Project</button>
+        <button id="importBtn">📥 Import</button>
+        <button id="exportBtn">📤 Export</button>
+      </div>
+      <div class="group task-group">
+        <button id="addPrimaryStart">➕ Task (Start Aligned)</button>
+        <button id="addPrimaryEnd">➕ Task (End Aligned)</button>
+        <button id="addSub">➕ Sub Task</button>
+        <button id="deleteTask">🗑️ Delete Task</button>
+      </div>
+      <button id="toggleEditor">🪟 Toggle Editor</button>
     </div>
   </header>
 
   <main>
     <section id="timeline">
-      <!-- Tasks will render here -->
+      <!-- Dynamic task rendering -->
     </section>
 
     <aside id="editor">
-      <h2>Editor</h2>
+      <h2>Task Editor</h2>
       <div id="editorContent">
         <label>Name: <input id="taskName" type="text"/></label>
         <label>Start: <input id="taskStart" type="date"/></label>
         <label>End: <input id="taskEnd" type="date"/></label>
         <label>Status: 
           <select id="taskStatus">
-            <option>Not Started</option>
-            <option>In Progress</option>
-            <option>Complete</option>
+            <option value="future">🕓 Future</option>
+            <option value="active">🚀 Active</option>
+            <option value="paused">⏸️ Paused</option>
+            <option value="complete">✅ Complete</option>
           </select>
         </label>
         <label>Notes: <textarea id="taskNotes"></textarea></label>
@@ -52,21 +64,22 @@
           </select>
           <input type="color" id="customColor" style="display:none;"/>
         </label>
-        <button id="saveTask">Save Task</button>
+        <label>Font Color: <input id="taskFontColor" type="color" /></label>
+        <button id="saveTask">💾 Save Task</button>
       </div>
     </aside>
   </main>
 
   <footer>
-    <button id="zoomIn">ZOOM +</button>
-    <button id="fitWidth">Fit Width</button>
-    <button id="collapseAll">Collapse All</button>
-    <button id="expandAll">Expand All</button>
+    <span id="version">GANTT2 v0.2.0</span>
+    <button id="zoomIn">🔍 ZOOM +</button>
+    <button id="fitWidth">🧩 Fit Width</button>
+    <button id="collapseAll">📉 Collapse</button>
+    <button id="expandAll">📈 Expand</button>
   </footer>
 
   <input type="file" id="fileInput" accept=".json" style="display:none"/>
 
-  <script src="utils.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
