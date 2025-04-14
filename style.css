@@ -93,3 +93,22 @@ aside#editor {
   outline: 3px solid #2e59d9;
   background-color: #e4f1ff !important;
 }
+
+
+
+main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  height: 100%;
+}
+
+#timeline {
+  flex: 3;
+  min-width: 400px;
+  min-height: 400px;
+  padding: 1rem;
+  border-right: 1px solid #ccc;
+  overflow-x: auto;
+  background: #fefefe;
+}
