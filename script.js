@@ -39,7 +39,7 @@ function setupButtons() {
       const data = JSON.parse(event.target.result);
       tasks = data.tasks || [];
 projectName = data.meta?.projectName || "Untitled Project";
-document.getElementById("projectName").value = projectName;
+
 document.getElementById("projectTitle").textContent = projectName;
       renderTasks();
       renderTabs();
