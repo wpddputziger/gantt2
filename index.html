@@ -15,19 +15,26 @@
     <input type="text" id="projectName" placeholder="Untitled Project" style="padding: 0.3rem; border: 1px solid #ccc; border-radius: 4px;" />
   </div>
 
-  <div class="header-right" style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
+  <div class="header-right" style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 0.5rem;">
+  <div class="button-group" id="group-project">
     <button id="newProject">🧹 New Project</button>
     <button id="importBtn">📥 Import</button>
     <button id="exportBtn">📤 Export</button>
+  </div>
 
+  <div class="button-group" id="group-task">
     <button id="addPrimaryStart">🆕 Task (Start Aligned)</button>
     <button id="addPrimaryEnd">🆕 Task (End Aligned)</button>
     <button id="addSub">➕ Sub Task</button>
     <button id="deleteTask">🗑️ Delete Task</button>
+  </div>
 
+  <div class="button-group" id="group-editor">
     <button id="toggleEditor">🪟 Toggle Editor</button>
     <button id="openTimelineSettings">⚙️ Timeline Settings</button>
   </div>
+</div>
+
 </header>
 
 
@@ -57,12 +64,25 @@
       <button id="deleteTaskFromEditor" style="margin-top: 1rem; background: #dc3545; color: white; padding: 0.5rem; border: none; border-radius: 6px;">
   🗑 Delete This Task
 </button>
+<button id="applyTaskChanges" style="margin-top: 1rem; background: #007bff; color: white; padding: 0.5rem; border: none; border-radius: 6px;">
+  ✅ Apply Changes
+</button>
 
     </div>
 
     <div class="tab-panel hidden" id="panelSubtask">
       <h2>Subtask Editor</h2>
       <div id="subtaskFields"></div>
+      <div id="subtaskFields"></div>
+
+<button id="applySubtaskChanges" style="margin-top: 1rem; background: #007bff; color: white; padding: 0.5rem; border: none; border-radius: 6px;">
+  ✅ Apply Changes
+</button>
+
+<button id="deleteSubtask" style="margin-top: 0.5rem; background: #dc3545; color: white; padding: 0.4rem; border: none; border-radius: 6px;">
+  🗑️ Delete Subtask
+</button>
+
     </div>
 
     <div class="tab-panel hidden" id="panelTimeline">
@@ -88,10 +108,7 @@
     </div>
   </aside>
 </main>
-
-
-
-<footer>
+<footer style="padding: 0.5rem; background: #fff; border-top: 1px solid #ccc; display: flex; justify-content: center; gap: 0.5rem; position: sticky; bottom: 0; z-index: 100;">
   <button id="zoomIn">🔍 ZOOM +</button>
   <button id="fitWidth">🧩 Fit Width</button>
   <button id="collapseAll">📉 Collapse</button>
