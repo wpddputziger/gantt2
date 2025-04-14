@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>GANTT2 Editor Test</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+    }
+
+    #editor {
+      display: block;
+      background: #f1f5f9;
+      padding: 1rem;
+      min-height: 400px;
+      max-width: 450px;
+      border-left: 1px solid #ccc;
+      resize: horizontal;
+      overflow: auto;
+    }
+
+    .editor-tabs {
+      display: flex;
+      background: #e8edf3;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 0.5rem;
+      border: none;
+      background: #d0d7e2;
+      font-weight: bold;
+      cursor: pointer;
+      border-right: 1px solid #ccc;
+    }
+
+    .tab-btn.active {
+      background: #ffffff;
+      color: #000;
+    }
+
+    .tab-panel {
+      padding: 1rem;
+    }
+
+    .tab-panel.hidden {
+      display: none;
+    }
+
+    .tab-panel label {
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .tab-panel input {
+      width: 100%;
+      padding: 0.4rem;
+    }
+  </style>
+</head>
+<body>
+  <aside id="editor">
+    <div class="editor-tabs">
+      <button class="tab-btn active" id="tabProject">📁 Project</button>
+      <button class="tab-btn" id="tabTask">🧱 Task</button>
+    </div>
+
+    <div class="tab-panel" id="panelProject">
+      <h2>Project Editor</h2>
+      <label>Project Name: <input type="text" value="Test Project" /></label>
+    </div>
+
+    <div class="tab-panel hidden" id="panelTask">
+      <h2>Task Editor</h2>
+      <label>Task Name: <input type="text" value="Test Task" /></label>
+    </div>
+  </aside>
+
+  <script>
+    document.getElementById("tabProject").onclick = () => {
+      document.getElementById("panelProject").classList.remove("hidden");
+      document.getElementById("panelTask").classList.add("hidden");
+      document.getElementById("tabProject").classList.add("active");
+      document.getElementById("tabTask").classList.remove("active");
+    };
+
+    document.getElementById("tabTask").onclick = () => {
+      document.getElementById("panelProject").classList.add("hidden");
+      document.getElementById("panelTask").classList.remove("hidden");
+      document.getElementById("tabTask").classList.add("active");
+      document.getElementById("tabProject").classList.remove("active");
+    };
+  </script>
+</body>
+</html>
