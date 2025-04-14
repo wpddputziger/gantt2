@@ -1,0 +1,132 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #f7f9fc;
+  color: #333;
+}
+
+header {
+  padding: 1rem;
+  background: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+}
+
+header h1 {
+  font-size: 1.5rem;
+}
+
+.controls button {
+  margin-right: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  background: #4e73df;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.controls button:hover {
+  background: #2e59d9;
+}
+
+main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+#timeline {
+  flex: 3;
+  padding: 1rem;
+  overflow-x: auto;
+  border-right: 1px solid #ddd;
+}
+
+.task {
+  background-color: #ddd;
+  border-radius: 6px;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  position: relative;
+  min-width: 200px;
+  max-width: 300px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.task .title {
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+}
+
+.task .subtasks {
+  margin-top: 0.5rem;
+  padding-left: 1rem;
+}
+
+.subtask {
+  background: #fff;
+  border-left: 4px solid #aaa;
+  padding: 0.3rem 0.5rem;
+  margin-top: 0.3rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+aside#editor {
+  flex: 1;
+  background: #f1f5f9;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+#editorContent label {
+  display: block;
+  margin-bottom: 0.8rem;
+}
+
+#editorContent input,
+#editorContent textarea,
+#editorContent select {
+  width: 100%;
+  padding: 0.4rem;
+  margin-top: 0.2rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#customColor {
+  margin-top: 0.5rem;
+}
+
+footer {
+  padding: 0.5rem;
+  background: #fff;
+  border-top: 1px solid #ddd;
+  text-align: center;
+}
+
+footer button {
+  margin-right: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #ccc;
+  background: #eee;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+footer button:hover {
+  background: #ddd;
+}

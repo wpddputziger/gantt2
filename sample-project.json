@@ -1,0 +1,35 @@
+[
+  {
+    "id": 101,
+    "name": "Design Phase",
+    "start": "2025-04-15",
+    "end": "2025-04-30",
+    "status": "In Progress",
+    "notes": "Initial UI and wireframes",
+    "assigned": "Alex",
+    "color": "#F8961E",
+    "subtasks": [
+      {
+        "id": 201,
+        "name": "Wireframes",
+        "status": "Complete"
+      },
+      {
+        "id": 202,
+        "name": "Brand Assets",
+        "status": "In Progress"
+      }
+    ]
+  },
+  {
+    "id": 102,
+    "name": "Development Phase",
+    "start": "2025-05-01",
+    "end": "2025-06-15",
+    "status": "Not Started",
+    "notes": "Core build starts here",
+    "assigned": "Jordan",
+    "color": "#577590",
+    "subtasks": []
+  }
+]

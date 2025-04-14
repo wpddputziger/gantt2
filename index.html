@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GANTT2 - Task Timeline Utility</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>GANTT2</h1>
+    <div class="controls">
+      <button id="newProject">New Project</button>
+      <button id="importBtn">Import</button>
+      <button id="exportBtn">Export</button>
+      <button id="addPrimary">New Primary Task</button>
+      <button id="addSub">New Sub Task</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="timeline">
+      <!-- Tasks will render here -->
+    </section>
+
+    <aside id="editor">
+      <h2>Editor</h2>
+      <div id="editorContent">
+        <label>Name: <input id="taskName" type="text"/></label>
+        <label>Start: <input id="taskStart" type="date"/></label>
+        <label>End: <input id="taskEnd" type="date"/></label>
+        <label>Status: 
+          <select id="taskStatus">
+            <option>Not Started</option>
+            <option>In Progress</option>
+            <option>Complete</option>
+          </select>
+        </label>
+        <label>Notes: <textarea id="taskNotes"></textarea></label>
+        <label>Assigned To: <input id="taskAssigned" type="text"/></label>
+        <label>Color:
+          <select id="taskColor">
+            <option value="#F94144">Red</option>
+            <option value="#F3722C">Orange</option>
+            <option value="#F8961E">Amber</option>
+            <option value="#F9844A">Coral</option>
+            <option value="#43AA8B">Teal</option>
+            <option value="#577590">Blue</option>
+            <option value="#9A5AFF">Purple</option>
+            <option value="#FF61C0">Pink</option>
+            <option value="custom">🎨 Custom...</option>
+          </select>
+          <input type="color" id="customColor" style="display:none;"/>
+        </label>
+        <button id="saveTask">Save Task</button>
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    <button id="zoomIn">ZOOM +</button>
+    <button id="fitWidth">Fit Width</button>
+    <button id="collapseAll">Collapse All</button>
+    <button id="expandAll">Expand All</button>
+  </footer>
+
+  <input type="file" id="fileInput" accept=".json" style="display:none"/>
+
+  <script src="utils.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
