@@ -1,247 +1,95 @@
-/* Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', sans-serif;
-}
-
-body {
+/* ===== Editor Tabs ===== */
+.editor-tabs {
   display: flex;
-  flex-direction: column;
-  height: 100vh;
-  background: #f7f9fc;
-  color: #333;
-}
-
-header {
-  background: #fff;
   border-bottom: 1px solid #ccc;
-  padding: 1rem;
+  background: #e8edf3;
 }
 
-.header-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.header-top h1 {
-  font-size: 1.4rem;
-  font-weight: bold;
-}
-
-.version-tag {
-  font-weight: normal;
-  font-size: 0.9rem;
-  color: #888;
-  margin-left: 0.5rem;
-}
-
-#projectName {
-  padding: 0.4rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.tab-btn {
   flex: 1;
-}
-
-.button-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.group {
-  display: flex;
-  gap: 0.5rem;
   padding: 0.5rem;
-  border-radius: 6px;
-}
-
-.project-controls {
-  background: #f1f5f9;
-}
-
-.task-controls {
-  background: #eef6ff;
-}
-
-.settings-controls {
-  background: #f9f0ff;
-}
-
-.button-bar button {
   border: none;
-  padding: 0.4rem 0.8rem;
-  background: #4e73df;
-  color: white;
-  border-radius: 6px;
+  background: #d0d7e2;
   cursor: pointer;
-}
-
-.button-bar button:hover {
-  background: #2e59d9;
-}
-
-/* MAIN */
-main {
-  display: flex;
-  flex: 1;
-  overflow: hidden;
-}
-
-/* TIMELINE */
-#timeline {
-  flex: 3;
-  padding: 1rem;
-  overflow-x: auto;
-  border-right: 1px solid #ddd;
-  min-height: 300px;
-}
-
-.task {
-  background-color: #ddd;
-  border-radius: 6px;
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-  cursor: pointer;
-  min-width: 200px;
-  max-width: 300px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-  transition: all 0.2s ease;
-}
-
-.task.selected {
-  outline: 3px solid #2e59d9;
-  background-color: #cde1ff !important;
-}
-
-.task .title {
   font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  text-align: center;
+  border-right: 1px solid #ccc;
+  transition: background 0.2s;
 }
 
-.status-icon {
-  font-size: 1rem;
-  margin-left: 0.5rem;
+.tab-btn:last-child {
+  border-right: none;
 }
 
-.subtasks {
-  margin-top: 0.5rem;
-  padding-left: 1rem;
+.tab-btn.active {
+  background: #ffffff;
+  color: #000;
+  cursor: default;
 }
 
-.subtask {
-  background: #fff;
-  border-left: 4px solid #aaa;
-  padding: 0.3rem 0.5rem;
-  margin-top: 0.3rem;
-  border-radius: 4px;
-  font-size: 0.9rem;
+.tab-btn.disabled {
+  background: #e0e0e0;
+  color: #999;
+  cursor: not-allowed;
 }
 
-/* EDITOR */
-aside#editor {
-  flex: 1;
+/* ===== Tab Panels ===== */
+.tab-panel {
   padding: 1rem;
-  background: #f1f5f9;
-  overflow-y: auto;
-  resize: horizontal;
-  min-width: 250px;
-  max-width: 400px;
-  border-left: 1px solid #ddd;
 }
 
-#editorContent label {
-  display: block;
-  margin-bottom: 0.8rem;
-}
-
-#editorContent input,
-#editorContent textarea,
-#editorContent select {
-  width: 100%;
-  padding: 0.4rem;
-  margin-top: 0.2rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-#saveTask {
-  font-size: 1rem;
-  font-weight: bold;
-  padding: 0.6rem;
-  margin-top: 0.5rem;
-  background: #1cc88a;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-#saveTask:hover {
-  background: #17a673;
-}
-
-/* TIMELINE SETTINGS PANEL */
-#timelineSettingsPanel {
-  position: absolute;
-  top: 100px;
-  right: 20px;
-  background: white;
-  border: 1px solid #ccc;
-  padding: 1rem;
-  z-index: 10;
-  width: 250px;
-  border-radius: 6px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-#timelineSettingsPanel.hidden {
+.tab-panel.hidden {
   display: none;
 }
 
-#timelineSettingsPanel h3 {
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
-}
-
-#timelineSettingsPanel label {
+/* ===== Field Labels ===== */
+.tab-panel label {
   display: block;
   margin-bottom: 1rem;
 }
 
-#timelineSettingsPanel input,
-#timelineSettingsPanel select {
+.tab-panel input,
+.tab-panel textarea,
+.tab-panel select {
   width: 100%;
-  padding: 0.3rem;
+  padding: 0.4rem;
   margin-top: 0.3rem;
-  border: 1px solid #aaa;
+  border: 1px solid #bbb;
   border-radius: 4px;
 }
 
-/* FOOTER */
-footer {
-  padding: 0.5rem;
-  background: #fff;
-  border-top: 1px solid #ddd;
-  text-align: center;
-}
-
-footer button {
-  margin-right: 0.5rem;
+/* ===== Project Tab Specific ===== */
+#applyProjectName {
+  margin-top: 0.5rem;
   padding: 0.4rem 0.8rem;
-  border: 1px solid #ccc;
-  background: #eee;
+  background: #1cc88a;
+  border: none;
+  color: white;
   border-radius: 4px;
   cursor: pointer;
 }
 
-footer button:hover {
-  background: #ddd;
+#applyProjectName:hover {
+  background: #17a673;
+}
+
+.small-note {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 0.5rem;
+}
+
+/* Editor Resize Support */
+aside#editor {
+  resize: horizontal;
+  overflow: auto;
+  min-width: 250px;
+  max-width: 450px;
+  border-left: 1px solid #ccc;
+}
+
+/* Task Selection Highlight */
+.task.selected {
+  outline: 3px solid #2e59d9;
+  background-color: #e4f1ff !important;
 }
