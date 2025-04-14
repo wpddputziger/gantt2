@@ -50,6 +50,7 @@ document.getElementById("newProject").onclick = () => {
 };
 
 
+
   document.getElementById("importBtn").onclick = () => document.getElementById("fileInput").click();
   document.getElementById("fileInput").onchange = e => {
     const file = e.target.files[0];
@@ -82,7 +83,7 @@ document.getElementById("projectTitle").textContent = projectName;
     editor.style.display = editor.style.display === "none" ? "block" : "none";
   };
 
-document.getElementById("editor").style.display = "block";
+
 
   
   document.getElementById("addPrimaryStart").onclick = () => {
@@ -95,14 +96,14 @@ document.getElementById("editor").style.display = "block";
   };
 
 document.getElementById("addPrimaryEnd").onclick = () => {
-  const task = createTask();
   const last = tasks[tasks.length - 1];
   const base = last?.end || new Date().toISOString().split("T")[0];
-  task.start = base;
+  const task = createTask(base);
   task.end = addDays(task.start, defaultDuration);
   tasks.push(task);
   renderTasks();
 };
+
 
   document.getElementById("addSub").onclick = () => {
     if (!selectedTaskId) return alert("Select a task first.");
