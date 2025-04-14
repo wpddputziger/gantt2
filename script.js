@@ -29,6 +29,37 @@ function setupButtons() {
     renderTasks();
   };
 
+  document.getElementById("importBtn").onclick = () => document.getElementById("fileInput").click();
+  document.getElementById("fileInput").onchange = e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = event => {
+      const data = JSON.parse(event.target.result);
+      tasks = data.tasks || [];
+      projectName = data.meta?.projectName || "Untitled Project";
+      document.getElementById("projectName").value = projectName;
+      renderTasks();
+      renderTabs();
+    };
+    reader.readAsText(file);
+  };
+
+  document.getElementById("exportBtn").onclick = () => {
+    const blob = new Blob([JSON.stringify({ meta: { projectName }, tasks }, null, 2)], {
+      type: "application/json"
+    });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `${projectName.replace(/\s+/g, "_")}.json`;
+    link.click();
+  };
+
+  document.getElementById("toggleEditor").onclick = () => {
+    const editor = document.getElementById("editor");
+    editor.style.display = editor.style.display === "none" ? "block" : "none";
+  };
+
   document.getElementById("addPrimaryStart").onclick = () => {
     const task = createTask();
     const last = tasks[tasks.length - 1];
@@ -76,33 +107,36 @@ function setupButtons() {
     }
   };
 
-  document.getElementById("deleteTaskFromEditor").onclick = () => {
-    if (selectedTaskId && confirm("Delete this task from editor?")) {
-      tasks = tasks.filter(t => t.id !== selectedTaskId);
-      selectedTaskId = null;
-      selectedSubtask = null;
-      editorTab = "project";
-      renderTabs();
-      renderTasks();
-    }
-  };
-
-  // Footer timeline buttons (placeholders)
   document.getElementById("zoomIn").onclick = () => alert("Zoom feature coming soon");
   document.getElementById("fitWidth").onclick = () => alert("Fit Width feature coming soon");
-  document.getElementById("collapseAll").onclick = () => alert("Collapse feature coming soon");
-  document.getElementById("expandAll").onclick = () => alert("Expand feature coming soon");
+  document.getElementById("collapseAll").onclick = () => {
+    tasks.forEach(t => t.expanded = false);
+    renderTasks();
+  };
+  document.getElementById("expandAll").onclick = () => {
+    tasks.forEach(t => t.expanded = true);
+    renderTasks();
+  };
 }
 
+// === SETTINGS ===
 function setupSettings() {
   const toggle = document.getElementById("autoColorToggle");
   if (toggle) {
     toggle.checked = true;
     toggle.onchange = e => autoColorEnabled = e.target.checked;
   }
+
+  const durationField = document.getElementById("defaultDuration");
+  if (durationField) {
+    durationField.onchange = e => {
+      const val = parseInt(e.target.value);
+      if (!isNaN(val)) defaultDuration = val;
+    };
+  }
 }
 
-// === TABS
+// === TABS ===
 function setupTabControls() {
   const tabs = ["project", "task", "subtask", "timeline"];
   tabs.forEach(tab => {
@@ -152,44 +186,16 @@ function canAccessTab(tab) {
   }
 }
 
-function capitalize(str) {
-  return str[0].toUpperCase() + str.slice(1);
-}
-
-// === PROJECT NAME
-document.getElementById("applyProjectName").onclick = () => {
-  const name = document.getElementById("projectNameField").value.trim();
-  if (!name) return alert("Name can't be empty.");
-  projectName = name;
-  document.getElementById("projectName").value = name;
-  showToast("✔ Project name updated.");
-};
-
-function showToast(msg) {
-  const toast = document.createElement("div");
-  toast.textContent = msg;
-  toast.style.position = "fixed";
-  toast.style.bottom = "10px";
-  toast.style.right = "10px";
-  toast.style.background = "#4caf50";
-  toast.style.color = "white";
-  toast.style.padding = "0.5rem 1rem";
-  toast.style.borderRadius = "6px";
-  toast.style.zIndex = "9999";
-  document.body.appendChild(toast);
-  setTimeout(() => document.body.removeChild(toast), 2000);
-}
-
-// === TASKS
+// === RENDER TASKS ===
 function renderTasks() {
   const timeline = document.getElementById("timeline");
   timeline.innerHTML = "";
 
-  tasks.forEach(task => {
+  tasks.forEach((task, i) => {
     const div = document.createElement("div");
     div.className = "task";
     div.style.backgroundColor = task.color || "#F8961E";
-    div.style.color = "#000";
+    div.style.color = getContrastColor(task.color);
     div.style.padding = "0.5rem";
     div.style.marginBottom = "1rem";
     div.style.cursor = "pointer";
@@ -198,13 +204,16 @@ function renderTasks() {
       ? "0 0 0 3px rgba(0,0,0,0.3)"
       : "none";
 
+    // Horizontal visual offset for stair-step look
+    div.style.marginLeft = `${i * 20}px`;
+
     div.innerHTML = `
       <div style="display:flex; justify-content:space-between; align-items:center;">
         <strong>${task.name}</strong>
-        ${task.subtasks?.length ? `<span style="font-size: 1.2em;">▾</span>` : ""}
+        ${task.subtasks?.length ? `<span style="font-size: 1.2em; cursor:pointer;" onclick="toggleSubtasks(${task.id}); event.stopPropagation();">▾</span>` : ""}
       </div>
       <div style="font-size:0.9em;margin-top:0.2rem;">🕓 ${task.start} → ${task.end}</div>
-      ${task.subtasks?.length ? `<div style="font-size:0.85em;margin-top:0.5rem;">${task.subtasks.length} subtask(s)</div>` : ""}
+      ${task.expanded !== false && task.subtasks?.length ? task.subtasks.map(st => `<div class="subtask" style="margin-left: 1rem; font-size: 0.85em; margin-top: 0.3rem;">- ${st.name}</div>`).join("") : ""}
     `;
 
     div.onclick = () => {
@@ -218,6 +227,13 @@ function renderTasks() {
   });
 }
 
+function toggleSubtasks(taskId) {
+  const task = findTaskById(taskId);
+  task.expanded = !task.expanded;
+  renderTasks();
+}
+
+// === EDITORS ===
 function renderTaskEditor() {
   const container = document.getElementById("taskFields");
   const task = findTaskById(selectedTaskId);
@@ -239,21 +255,58 @@ function renderTaskEditor() {
     <label>Assigned To: <input id="taskAssigned" type="text" value="${task.assigned}" /></label>
   `;
 
-  document.getElementById("taskName").oninput = e => task.name = e.target.value;
-  document.getElementById("taskStart").onchange = e => task.start = e.target.value;
-  document.getElementById("taskEnd").onchange = e => task.end = e.target.value;
-  document.getElementById("taskStatus").onchange = e => task.status = e.target.value;
-  document.getElementById("taskNotes").oninput = e => task.notes = e.target.value;
-  document.getElementById("taskAssigned").oninput = e => task.assigned = e.target.value;
-
-  renderTasks();
+  document.getElementById("applyTaskChanges").onclick = () => {
+    task.name = document.getElementById("taskName").value;
+    task.start = document.getElementById("taskStart").value;
+    task.end = document.getElementById("taskEnd").value;
+    task.status = document.getElementById("taskStatus").value;
+    task.notes = document.getElementById("taskNotes").value;
+    task.assigned = document.getElementById("taskAssigned").value;
+    renderTasks();
+    showToast("✅ Task updated");
+  };
 }
 
 function renderSubtaskEditor() {
   const container = document.getElementById("subtaskFields");
-  container.innerHTML = `<p>Subtask editor coming soon...</p>`;
+  if (!selectedSubtask) return container.innerHTML = "<p>No subtask selected.</p>";
+
+  container.innerHTML = `
+    <label>Name: <input type="text" id="subName" value="${selectedSubtask.name}" /></label>
+    <label>Start: <input type="date" id="subStart" value="${selectedSubtask.start}" /></label>
+    <label>End: <input type="date" id="subEnd" value="${selectedSubtask.end}" /></label>
+    <label>Status: 
+      <select id="subStatus">
+        <option value="future">Future</option>
+        <option value="active">Active</option>
+        <option value="paused">Paused</option>
+        <option value="complete">Complete</option>
+      </select>
+    </label>
+    <label>Assigned To: <input type="text" id="subAssigned" value="${selectedSubtask.assigned}" /></label>
+  `;
+
+  document.getElementById("applySubtaskChanges").onclick = () => {
+    selectedSubtask.name = document.getElementById("subName").value;
+    selectedSubtask.start = document.getElementById("subStart").value;
+    selectedSubtask.end = document.getElementById("subEnd").value;
+    selectedSubtask.status = document.getElementById("subStatus").value;
+    selectedSubtask.assigned = document.getElementById("subAssigned").value;
+    renderTasks();
+    showToast("✅ Subtask updated");
+  };
+
+  document.getElementById("deleteSubtask").onclick = () => {
+    const parent = findTaskById(selectedTaskId);
+    parent.subtasks = parent.subtasks.filter(s => s.id !== selectedSubtask.id);
+    selectedSubtask = null;
+    renderTabs();
+    renderTasks();
+    showToast("🗑️ Subtask deleted");
+  };
 }
 
+// === HELPERS ===
 function createTask() {
   const today = new Date().toISOString().split("T")[0];
   const color = autoColorEnabled ? getNextColor() : "#F8961E";
@@ -266,7 +319,8 @@ function createTask() {
     notes: "",
     assigned: "",
     color,
-    subtasks: []
+    subtasks: [],
+    expanded: true
   };
 }
 
@@ -284,4 +338,27 @@ function addDays(dateStr, days) {
   const date = new Date(dateStr);
   date.setDate(date.getDate() + days);
   return date.toISOString().split("T")[0];
+}
+
+function getContrastColor(hex) {
+  const r = parseInt(hex.substr(1, 2), 16);
+  const g = parseInt(hex.substr(3, 2), 16);
+  const b = parseInt(hex.substr(5, 2), 16);
+  const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+  return brightness > 128 ? "#000000" : "#FFFFFF";
+}
+
+function showToast(msg) {
+  const toast = document.createElement("div");
+  toast.textContent = msg;
+  toast.style.position = "fixed";
+  toast.style.bottom = "10px";
+  toast.style.right = "10px";
+  toast.style.background = "#4caf50";
+  toast.style.color = "white";
+  toast.style.padding = "0.5rem 1rem";
+  toast.style.borderRadius = "6px";
+  toast.style.zIndex = "9999";
+  document.body.appendChild(toast);
+  setTimeout(() => document.body.removeChild(toast), 2000);
 }
