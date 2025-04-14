@@ -150,7 +150,7 @@ main {
   min-width: 300px;
   max-width: 450px;
   border-left: 1px solid #ccc;
-  display: block;
+  display: block !important;
 }
 
 footer {
