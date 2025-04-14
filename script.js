@@ -38,8 +38,9 @@ function setupButtons() {
     reader.onload = event => {
       const data = JSON.parse(event.target.result);
       tasks = data.tasks || [];
-      projectName = data.meta?.projectName || "Untitled Project";
-      document.getElementById("projectName").value = projectName;
+projectName = data.meta?.projectName || "Untitled Project";
+document.getElementById("projectName").value = projectName;
+document.getElementById("projectTitle").textContent = projectName;
       renderTasks();
       renderTabs();
     };
@@ -238,7 +239,7 @@ timeline.appendChild(wrapper);
     // Horizontal visual offset for stair-step look
 
 
-  };
+  }
 }
 
 function toggleSubtasks(taskId) {
