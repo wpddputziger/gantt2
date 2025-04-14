@@ -9,32 +9,27 @@
 
 </head>
 <body>
-  <header>
-    <div class="header-top">
-      <h1>GANTT2 <span class="version-tag">v0.2.2</span></h1>
-      <input type="text" id="projectName" placeholder="Untitled Project" disabled />
-    </div>
+<header style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; padding: 1rem; background: #f8f9fa; border-bottom: 1px solid #ccc;">
+  <div class="header-left" style="display: flex; align-items: center; gap: 1rem;">
+    <h1 style="margin: 0;">GANTT2 <span style="font-size: 0.8rem; color: #999;">v0.2.3</span></h1>
+    <input type="text" id="projectName" placeholder="Untitled Project" style="padding: 0.3rem; border: 1px solid #ccc; border-radius: 4px;" />
+  </div>
 
-    <div class="button-bar">
-      <div class="group project-controls">
-        <button id="newProject">🧹 New Project</button>
-        <button id="importBtn">📥 Import</button>
-        <button id="exportBtn">📤 Export</button>
-      </div>
+  <div class="header-right" style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
+    <button id="newProject">🧹 New Project</button>
+    <button id="importBtn">📥 Import</button>
+    <button id="exportBtn">📤 Export</button>
 
-      <div class="group task-controls">
-        <button id="addPrimaryStart">🆕 Task (Start Aligned)</button>
-        <button id="addPrimaryEnd">🆕 Task (End Aligned)</button>
-        <button id="addSub">➕ Sub Task</button>
-        <button id="deleteTask">🗑️ Delete Task</button>
-      </div>
+    <button id="addPrimaryStart">🆕 Task (Start Aligned)</button>
+    <button id="addPrimaryEnd">🆕 Task (End Aligned)</button>
+    <button id="addSub">➕ Sub Task</button>
+    <button id="deleteTask">🗑️ Delete Task</button>
 
-      <div class="group settings-controls">
-        <button id="toggleEditor">🪟 Toggle Editor</button>
-        <button id="openTimelineSettings">⚙️ Timeline Settings</button>
-      </div>
-    </div>
-  </header>
+    <button id="toggleEditor">🪟 Toggle Editor</button>
+    <button id="openTimelineSettings">⚙️ Timeline Settings</button>
+  </div>
+</header>
+
 
 <main>
   <section id="timeline">
