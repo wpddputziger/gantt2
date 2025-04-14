@@ -263,7 +263,7 @@ footer button {
 #timeline {
   flex: 3;
   background: #fefefe;
-  min-width: 100%;
+  min-width: 300px;
   overflow-x: auto;
   overflow-y: auto;
   padding: 1rem;
