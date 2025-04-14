@@ -223,6 +223,9 @@ const wrapper = document.createElement("div");
 wrapper.style.position = "relative";
 wrapper.style.minHeight = "600px";
 wrapper.style.width = "3000px";
+  wrapper.style.backgroundImage = "linear-gradient(to right, #eee 1px, transparent 1px)";
+wrapper.style.backgroundSize = `${zoomLevel}px 100%`;
+
 
 tasks.forEach((task, i) => {
   const div = document.createElement("div");
