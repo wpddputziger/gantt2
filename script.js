@@ -37,16 +37,17 @@ document.getElementById("applyProjectName").onclick = () => {
   document.getElementById("projectTitle").textContent = projectName;
 };
 
-    if (!confirm("Start a new project? Unsaved data will be lost.")) return;
-    projectName = "Untitled Project";
-    tasks = [];
-    selectedTaskId = null;
-    selectedSubtask = null;
-    colorIndex = 0;
-    document.getElementById("projectTitle").textContent = projectName;
-    renderTabs();
-    renderTasks();
-  };
+document.getElementById("newProject").onclick = () => {
+  if (!confirm("Start a new project? Unsaved data will be lost.")) return;
+  projectName = "Untitled Project";
+  tasks = [];
+  selectedTaskId = null;
+  selectedSubtask = null;
+  colorIndex = 0;
+  document.getElementById("projectTitle").textContent = projectName;
+  renderTabs();
+  renderTasks();
+};
 
 
   document.getElementById("importBtn").onclick = () => document.getElementById("fileInput").click();
@@ -82,6 +83,7 @@ document.getElementById("projectTitle").textContent = projectName;
   };
 
 document.getElementById("editor").style.display = "block";
+
   
   document.getElementById("addPrimaryStart").onclick = () => {
     const task = createTask();
@@ -223,7 +225,6 @@ wrapper.style.width = "3000px";
 
 tasks.forEach((task, i) => {
   const div = document.createElement("div");
-  const projectStart = task[0].start;
   div.className = "task";
   div.style.backgroundColor = task.color || "#F8961E";
   div.style.color = getContrastColor(task.color);
@@ -340,14 +341,14 @@ function renderSubtaskEditor() {
 }
 
 // === HELPERS ===
-function createTask() {
-  const today = new Date().toISOString().split("T")[0];
+
+  function createTask(start = new Date().toISOString().split("T")[0]) {
   const color = autoColorEnabled ? getNextColor() : "#F8961E";
   return {
     id: Date.now(),
     name: "New Task",
     start: start,
-    end: addDays(today, defaultDuration),
+    end: addDays(start, defaultDuration),
     status: "future",
     notes: "",
     assigned: "",
@@ -356,6 +357,7 @@ function createTask() {
     expanded: true
   };
 }
+
 
 function getNextColor() {
   const color = taskColors[colorIndex % taskColors.length];
