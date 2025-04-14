@@ -1,9 +1,3 @@
-// Placeholder for future Gantt utilities like:
-// - Zoom calculation
-// - Day/week/month conversion
-// - Date snapping
-// - Collision checks
+// utils.js placeholder — not exporting anything to avoid browser crash
+console.log("utils.js loaded (noop)");
 
-export function noop() {
-  return null;
-}
