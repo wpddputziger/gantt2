@@ -34,13 +34,12 @@
     </div>
   </header>
 
- <main style="display: flex; flex: 1; overflow: hidden;">
-  <section id="timeline" style="flex: 3; padding: 1rem; overflow-x: auto; border-right: 1px solid #ddd;">
-    <!-- Tasks will appear here -->
+<main>
+  <section id="timeline">
+    <!-- Tasks will be rendered here -->
   </section>
 
-  <aside id="editor" style="flex: 1; background: #f1f5f9; overflow-y: auto; resize: horizontal; min-width: 250px; max-width: 450px; border-left: 1px solid #ccc;">
-    <!-- Tab Buttons -->
+  <aside id="editor">
     <div class="editor-tabs">
       <button class="tab-btn active" id="tabProject">📁 Project</button>
       <button class="tab-btn disabled" id="tabTask">🧱 Task</button>
@@ -48,7 +47,6 @@
       <button class="tab-btn disabled" id="tabTimeline">⚙️ Timeline</button>
     </div>
 
-    <!-- Tab Panels -->
     <div class="tab-panel" id="panelProject">
       <h2>Project Editor</h2>
       <label>Project Name: <input type="text" id="projectNameField" /></label>
@@ -84,6 +82,7 @@
     </div>
   </aside>
 </main>
+
 
 
   <footer>
