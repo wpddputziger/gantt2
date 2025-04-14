@@ -10,6 +10,17 @@ const taskColors = ["#F8961E", "#577590", "#43AA8B", "#9A5AFF", "#F94144", "#F37
 
 document.addEventListener("DOMContentLoaded", () => {
 
+  const editor = document.getElementById("editor");
+
+  // Force show + spacing
+  editor.style.display = "block";
+  editor.style.visibility = "visible";
+  editor.style.height = "auto";
+  editor.style.minHeight = "400px";
+
+  // Force reflow (browser visual update)
+  editor.getBoundingClientRect();
+  
   setupTabControls();
   setupButtons();
   setupSettings();
