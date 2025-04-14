@@ -111,17 +111,6 @@ main {
   border-top: 1px solid #ccc;
 }
 
-#timeline {
-  flex: 3;
-  background: #fefefe;
-  min-width: 300px;
-  min-height: 100%;
-  padding: 1rem;
-  overflow-x: auto;
-  overflow-y: auto;
-  border-right: 1px solid #ccc;
-}
-
 
 
 #editor {
@@ -158,14 +147,7 @@ main {
   overflow: hidden;
 }
 
-#timeline {
-  flex: 3;
-  background: #fefefe;
-  min-width: 300px;
-  padding: 1rem;
-  overflow: auto;
-  border-right: 1px solid #ccc;
-}
+
 
 #editor {
   flex: 1;
@@ -175,6 +157,7 @@ main {
   min-width: 300px;
   max-width: 450px;
   border-left: 1px solid #ccc;
+  display: block;
 }
 
 footer {
