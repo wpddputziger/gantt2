@@ -29,6 +29,7 @@ function setupButtons() {
     renderTasks();
   };
 
+  document.getElementById("projectTitle").textContent = projectName;
   document.getElementById("importBtn").onclick = () => document.getElementById("fileInput").click();
   document.getElementById("fileInput").onchange = e => {
     const file = e.target.files[0];
@@ -236,28 +237,7 @@ timeline.appendChild(wrapper);
 
     // Horizontal visual offset for stair-step look
 
-    
-div.style.left = dateToOffset(task.start, projectStart) + "px";
-div.style.position = "absolute";
 
-
-    div.innerHTML = `
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <strong>${task.name}</strong>
-        ${task.subtasks?.length ? `<span style="font-size: 1.2em; cursor:pointer;" onclick="toggleSubtasks(${task.id}); event.stopPropagation();">▾</span>` : ""}
-      </div>
-      <div style="font-size:0.9em;margin-top:0.2rem;">🕓 ${task.start} → ${task.end}</div>
-      ${task.expanded !== false && task.subtasks?.length ? task.subtasks.map(st => `<div class="subtask" style="margin-left: 1rem; font-size: 0.85em; margin-top: 0.3rem;">- ${st.name}</div>`).join("") : ""}
-    `;
-
-    div.onclick = () => {
-      selectedTaskId = task.id;
-      selectedSubtask = null;
-      editorTab = "task";
-      renderTabs();
-    };
-
-    timeline.appendChild(div);
   });
 }
 
