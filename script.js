@@ -26,9 +26,7 @@ function setupButtons() {
     selectedSubtask = null;
     colorIndex = 0;
     renderTabs();
-    renderTasks(if (!tasks.length) return;
-const projectStart = tasks[0].start;
-);
+    renderTasks();
   };
 
   document.getElementById("importBtn").onclick = () => document.getElementById("fileInput").click();
@@ -193,7 +191,6 @@ function renderTasks() {
   const timeline = document.getElementById("timeline");
   timeline.innerHTML = "";
 
-timeline.innerHTML = "";
 
 if (!tasks.length) return;
 
