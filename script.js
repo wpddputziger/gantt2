@@ -32,7 +32,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // === BUTTON SETUP ===
 function setupButtons() {
-  document.getElementById("newProject").onclick = () => {
+document.getElementById("applyProjectName").onclick = () => {
+  projectName = document.getElementById("projectNameField").value;
+  document.getElementById("projectTitle").textContent = projectName;
+};
+
     if (!confirm("Start a new project? Unsaved data will be lost.")) return;
     projectName = "Untitled Project";
     tasks = [];
@@ -88,14 +92,15 @@ document.getElementById("editor").style.display = "block";
     renderTasks();
   };
 
-  document.getElementById("addPrimaryEnd").onclick = () => {
-    const task = createTask();
-    const last = tasks[tasks.length - 1];
-    if (last?.end) task.start = last.end;
-    task.end = addDays(task.start, defaultDuration);
-    tasks.push(task);
-    renderTasks();
-  };
+document.getElementById("addPrimaryEnd").onclick = () => {
+  const task = createTask();
+  const last = tasks[tasks.length - 1];
+  const base = last?.end || new Date().toISOString().split("T")[0];
+  task.start = base;
+  task.end = addDays(task.start, defaultDuration);
+  tasks.push(task);
+  renderTasks();
+};
 
   document.getElementById("addSub").onclick = () => {
     if (!selectedTaskId) return alert("Select a task first.");
@@ -218,6 +223,7 @@ wrapper.style.width = "3000px";
 
 tasks.forEach((task, i) => {
   const div = document.createElement("div");
+  const projectStart = task[0].start;
   div.className = "task";
   div.style.backgroundColor = task.color || "#F8961E";
   div.style.color = getContrastColor(task.color);
@@ -340,7 +346,7 @@ function createTask() {
   return {
     id: Date.now(),
     name: "New Task",
-    start: today,
+    start: start,
     end: addDays(today, defaultDuration),
     status: "future",
     notes: "",
