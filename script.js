@@ -25,11 +25,12 @@ function setupButtons() {
     selectedTaskId = null;
     selectedSubtask = null;
     colorIndex = 0;
+    document.getElementById("projectTitle").textContent = projectName;
     renderTabs();
     renderTasks();
   };
 
-  document.getElementById("projectTitle").textContent = projectName;
+
   document.getElementById("importBtn").onclick = () => document.getElementById("fileInput").click();
   document.getElementById("fileInput").onchange = e => {
     const file = e.target.files[0];
@@ -231,7 +232,7 @@ tasks.forEach((task, i) => {
 });
 
 timeline.appendChild(wrapper);
-
+}
 
     // Horizontal visual offset for stair-step look
 
