@@ -27,6 +27,14 @@
   cursor: default;
 }
 
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+
 .tab-btn.disabled {
   background: #e0e0e0;
   color: #999;
