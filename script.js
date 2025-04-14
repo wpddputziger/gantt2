@@ -3,7 +3,7 @@ let selectedTaskId = null;
 let selectedSubtask = null;
 let projectName = "Untitled Project";
 let editorTab = "project";
-let defaultDuration = 3;
+let defaultDuration = 1;
 let autoColorEnabled = true;
 let colorIndex = 0;
 const taskColors = ["#F8961E", "#577590", "#43AA8B", "#9A5AFF", "#F94144", "#F3722C"];
@@ -222,7 +222,7 @@ const projectStart = tasks[0].start;
 const wrapper = document.createElement("div");
 wrapper.style.position = "relative";
 wrapper.style.minHeight = "600px";
-wrapper.style.width = (tasks.length * 400_ + "px";
+wrapper.style.width = (tasks.length * zoomlevel * defaultDuration + 500) + "px";
   wrapper.style.backgroundImage = "linear-gradient(to right, #eee 1px, transparent 1px)";
 wrapper.style.backgroundSize = `${zoomLevel}px 100%`;
 
@@ -238,6 +238,8 @@ tasks.forEach((task, i) => {
   div.style.position = "absolute";
   div.style.top = `${i * 80}px`; // space vertically
   div.style.left = dateToOffset(task.start, projectStart) + "px";
+  div.style.width = (zoomLevel * (getTaskDuration(task) || 1)) + "px";
+
 
   div.innerHTML = `
     <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -345,6 +347,11 @@ function renderSubtaskEditor() {
 }
 
 // === HELPERS ===
+function getTaskDuration(task) {
+  const start = new Date(task.start);
+  const end = new Date(task.end);
+  return Math.max(1, Math.floor((end - start) / (1000 * 60 * 60 * 24)));
+}
 
   function createTask(start = new Date().toISOString().split("T")[0]) {
   const color = autoColorEnabled ? getNextColor() : "#F8961E";
@@ -408,7 +415,7 @@ function showToast(msg) {
 }
 
 
-let zoomLevel = 20; // px per day
+let zoomLevel = 300; // px per day
 
 function dateToOffset(startDate, baseDate) {
   const start = new Date(startDate);
