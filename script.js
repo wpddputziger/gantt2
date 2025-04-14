@@ -150,10 +150,7 @@ function setupTabControls() {
     };
   });
 
-  document.getElementById("openTimelineSettings").onclick = () => {
-    editorTab = "timeline";
-    renderTabs();
-  };
+
 }
 
 function renderTabs() {
