@@ -14,6 +14,8 @@ document.addEventListener("DOMContentLoaded", () => {
   setupSettings();
   renderTabs();
   renderTasks();
+  document.getElementById("editor").style.display = "block";
+
 });
 
 // === BUTTON SETUP ===
