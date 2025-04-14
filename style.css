@@ -115,7 +115,7 @@ main {
   overflow-y: auto;
   overflow-x: hidden;
   border-left: 1px solid #ccc;
-  display: block; !important;
+  display: block !important;
   padding: 1rem;
 }
 
@@ -141,18 +141,6 @@ main {
   overflow: hidden;
 }
 
-
-
-#editor {
-  flex: 1;
-  background: #f1f5f9;
-  resize: horizontal;
-  overflow-y: auto;
-  min-width: 300px;
-  max-width: 450px;
-  border-left: 1px solid #ccc;
-  display: block !important;
-}
 
 footer {
   position: sticky;
