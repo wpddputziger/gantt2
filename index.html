@@ -57,6 +57,10 @@
     <div class="tab-panel hidden" id="panelTask">
       <h2>Primary Task Editor</h2>
       <div id="taskFields"></div>
+      <button id="deleteTaskFromEditor" style="margin-top: 1rem; background: #dc3545; color: white; padding: 0.5rem; border: none; border-radius: 6px;">
+  🗑 Delete This Task
+</button>
+
     </div>
 
     <div class="tab-panel hidden" id="panelSubtask">
@@ -79,18 +83,24 @@
           <option value="week">Week</option>
         </select>
       </label>
+      <label>
+  Auto-Assign Colors:
+  <input type="checkbox" id="autoColorToggle" checked />
+</label>
+
     </div>
   </aside>
 </main>
 
 
 
-  <footer>
-    <button id="zoomIn">🔍 ZOOM +</button>
-    <button id="fitWidth">🧩 Fit Width</button>
-    <button id="collapseAll">📉 Collapse</button>
-    <button id="expandAll">📈 Expand</button>
-  </footer>
+<footer>
+  <button id="zoomIn">🔍 ZOOM +</button>
+  <button id="fitWidth">🧩 Fit Width</button>
+  <button id="collapseAll">📉 Collapse</button>
+  <button id="expandAll">📈 Expand</button>
+</footer>
+
 
   <input type="file" id="fileInput" accept=".json" style="display:none"/>
 
