@@ -77,6 +77,8 @@ document.getElementById("projectTitle").textContent = projectName;
     editor.style.display = editor.style.display === "none" ? "block" : "none";
   };
 
+document.getElementById("editor").style.display = "block";
+  
   document.getElementById("addPrimaryStart").onclick = () => {
     const task = createTask();
     const last = tasks[tasks.length - 1];
