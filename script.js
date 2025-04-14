@@ -348,6 +348,11 @@ function getContrastColor(hex) {
   return brightness > 128 ? "#000000" : "#FFFFFF";
 }
 
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+
 function showToast(msg) {
   const toast = document.createElement("div");
   toast.textContent = msg;
