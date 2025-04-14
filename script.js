@@ -26,7 +26,9 @@ function setupButtons() {
     selectedSubtask = null;
     colorIndex = 0;
     renderTabs();
-    renderTasks();
+    renderTasks(if (!tasks.length) return;
+const projectStart = tasks[0].start;
+);
   };
 
   document.getElementById("importBtn").onclick = () => document.getElementById("fileInput").click();
@@ -191,21 +193,56 @@ function renderTasks() {
   const timeline = document.getElementById("timeline");
   timeline.innerHTML = "";
 
-  tasks.forEach((task, i) => {
-    const div = document.createElement("div");
-    div.className = "task";
-    div.style.backgroundColor = task.color || "#F8961E";
-    div.style.color = getContrastColor(task.color);
-    div.style.padding = "0.5rem";
-    div.style.marginBottom = "1rem";
-    div.style.cursor = "pointer";
-    div.style.borderRadius = "6px";
-    div.style.boxShadow = task.id === selectedTaskId
-      ? "0 0 0 3px rgba(0,0,0,0.3)"
-      : "none";
+timeline.innerHTML = "";
+
+if (!tasks.length) return;
+
+const projectStart = tasks[0].start;
+const wrapper = document.createElement("div");
+wrapper.style.position = "relative";
+wrapper.style.minHeight = "600px";
+wrapper.style.width = "3000px";
+
+tasks.forEach((task, i) => {
+  const div = document.createElement("div");
+  div.className = "task";
+  div.style.backgroundColor = task.color || "#F8961E";
+  div.style.color = getContrastColor(task.color);
+  div.style.padding = "0.5rem";
+  div.style.borderRadius = "6px";
+  div.style.boxShadow = task.id === selectedTaskId ? "0 0 0 3px rgba(0,0,0,0.3)" : "none";
+  div.style.position = "absolute";
+  div.style.top = `${i * 80}px`; // space vertically
+  div.style.left = dateToOffset(task.start, projectStart) + "px";
+
+  div.innerHTML = `
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <strong>${task.name}</strong>
+      ${task.subtasks?.length ? `<span style="font-size: 1.2em; cursor:pointer;" onclick="toggleSubtasks(${task.id}); event.stopPropagation();">▾</span>` : ""}
+    </div>
+    <div style="font-size:0.9em;margin-top:0.2rem;">🕓 ${task.start} → ${task.end}</div>
+    ${task.expanded !== false && task.subtasks?.length ? task.subtasks.map(st => `<div class="subtask" style="margin-left: 1rem; font-size: 0.85em; margin-top: 0.3rem;">- ${st.name}</div>`).join("") : ""}
+  `;
+
+  div.onclick = () => {
+    selectedTaskId = task.id;
+    selectedSubtask = null;
+    editorTab = "task";
+    renderTabs();
+  };
+
+  wrapper.appendChild(div);
+});
+
+timeline.appendChild(wrapper);
+
 
     // Horizontal visual offset for stair-step look
-    div.style.marginLeft = `${i * 20}px`;
+
+    
+div.style.left = dateToOffset(task.start, projectStart) + "px";
+div.style.position = "absolute";
+
 
     div.innerHTML = `
       <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -366,4 +403,14 @@ function showToast(msg) {
   toast.style.zIndex = "9999";
   document.body.appendChild(toast);
   setTimeout(() => document.body.removeChild(toast), 2000);
+}
+
+
+let zoomLevel = 20; // px per day
+
+function dateToOffset(startDate, baseDate) {
+  const start = new Date(startDate);
+  const base = new Date(baseDate);
+  const diffDays = Math.floor((start - base) / (1000 * 60 * 60 * 24));
+  return Math.max(0, diffDays * zoomLevel);
 }
