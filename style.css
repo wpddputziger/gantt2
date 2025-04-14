@@ -14,53 +14,80 @@ body {
   color: #333;
 }
 
+/* HEADER */
 header {
+  background: #fff;
+  border-bottom: 1px solid #ccc;
   padding: 1rem;
-  background: #ffffff;
+}
+
+header .project-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #ddd;
+  gap: 1rem;
 }
 
-header h1 {
-  font-size: 1.5rem;
+#projectName {
+  padding: 0.4rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
-.controls button {
-  margin-right: 0.5rem;
-  padding: 0.5rem 1rem;
+/* BUTTON GROUPS */
+.button-groups {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.button-groups .group {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.3rem 0.5rem;
+  background: #eef1f5;
+  border-radius: 6px;
+}
+
+.button-groups button {
   border: none;
+  padding: 0.4rem 0.8rem;
   background: #4e73df;
   color: white;
   border-radius: 6px;
   cursor: pointer;
 }
 
-.controls button:hover {
+.button-groups button:hover {
   background: #2e59d9;
 }
 
+/* MAIN */
 main {
   display: flex;
   flex: 1;
   overflow: hidden;
 }
 
+/* TIMELINE */
 #timeline {
   flex: 3;
   padding: 1rem;
   overflow-x: auto;
   border-right: 1px solid #ddd;
+  min-height: 300px;
 }
 
 .task {
   background-color: #ddd;
+  color: #000;
   border-radius: 6px;
   padding: 0.5rem;
   margin-bottom: 1rem;
-  cursor: pointer;
   position: relative;
+  cursor: pointer;
   min-width: 200px;
   max-width: 300px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
@@ -68,10 +95,17 @@ main {
 
 .task .title {
   font-weight: bold;
-  margin-bottom: 0.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.task .subtasks {
+.task .status-icon {
+  font-size: 1rem;
+  margin-left: 0.5rem;
+}
+
+.subtasks {
   margin-top: 0.5rem;
   padding-left: 1rem;
 }
@@ -85,11 +119,16 @@ main {
   font-size: 0.9rem;
 }
 
+/* EDITOR */
 aside#editor {
   flex: 1;
-  background: #f1f5f9;
   padding: 1rem;
+  background: #f1f5f9;
   overflow-y: auto;
+  resize: horizontal;
+  min-width: 250px;
+  max-width: 400px;
+  border-left: 1px solid #ddd;
 }
 
 #editorContent label {
@@ -107,10 +146,7 @@ aside#editor {
   border-radius: 4px;
 }
 
-#customColor {
-  margin-top: 0.5rem;
-}
-
+/* FOOTER */
 footer {
   padding: 0.5rem;
   background: #fff;
