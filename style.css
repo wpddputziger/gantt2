@@ -87,14 +87,6 @@ html, body {
   margin-top: 0.5rem;
 }
 
-/* Editor Resize Support */
-aside#editor {
-  resize: horizontal;
-  overflow: auto;
-  min-width: 250px;
-  max-width: 450px;
-  border-left: 1px solid #ccc;
-}
 
 /* Task Selection Highlight */
 .task.selected {
