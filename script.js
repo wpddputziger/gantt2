@@ -238,8 +238,6 @@ timeline.appendChild(wrapper);
 
     // Horizontal visual offset for stair-step look
 
-
-  }
 }
 
 function toggleSubtasks(taskId) {
