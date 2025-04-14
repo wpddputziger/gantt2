@@ -115,7 +115,7 @@ main {
   overflow-y: auto;
   overflow-x: hidden;
   border-left: 1px solid #ccc;
-  display: block;
+  display: block; !important;
 }
 
 html, body {
