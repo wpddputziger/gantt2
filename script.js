@@ -9,7 +9,7 @@ let colorIndex = 0;
 const taskColors = ["#F8961E", "#577590", "#43AA8B", "#9A5AFF", "#F94144", "#F3722C"];
 
 document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("editor").style.display = "block"; // ✅ force visible
+
   setupTabControls();
   setupButtons();
   setupSettings();
